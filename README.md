@@ -21,11 +21,14 @@ We explore and compare supervised, unsupervised, and semi-supervised approaches 
 Clone the repository and install dependencies:
 
 ```bash
+
 git clone https://github.com/Skshamim02/anomaly-detection-3d-thermal.git
 cd anomaly-detection-3d-thermal
 pip install -r requirements.txt
 Note: If requirements.txt is not available, manually install dependencies listed in environment.yml or use a compatible PyTorch 1.12+ setup with NVIDIA GPU.
 
+
+```
 📁 Dataset
 This project uses modified subsets of the following datasets:
 
@@ -40,9 +43,7 @@ Download the WFDD dataset from Google Drive
 ⚙️ Training & Inference
 Run training with your desired configuration (example below):
 
-bash
-Copy
-Edit
+```bash
 python main.py \
     --gpu 0 \
     --test ckpt \
@@ -55,7 +56,9 @@ python main.py \
     --alpha 0.5 \
     --fg 1 \
     --epochs 200
+```
 Change --test to test or train to switch modes.
+
 
 🧠 Model & Strategy
 We currently support:
@@ -92,9 +95,6 @@ Heatmap visualizations of anomaly localization
 
 🙏 Acknowledgements
 This project builds on the GLASS repository and was inspired by concepts from:
-
 SimpleNet
-
 BGAD
-
 MVTec AD
