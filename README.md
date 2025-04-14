@@ -1,130 +1,100 @@
-# GLASS
+# 🔥 Anomaly Detection in 3D Thermal Printing
 
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/a-unified-anomaly-synthesis-strategy-with/anomaly-detection-on-mvtec-ad)](https://paperswithcode.com/sota/anomaly-detection-on-mvtec-ad?p=a-unified-anomaly-synthesis-strategy-with)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/a-unified-anomaly-synthesis-strategy-with/anomaly-detection-on-mpdd)](https://paperswithcode.com/sota/anomaly-detection-on-mpdd?p=a-unified-anomaly-synthesis-strategy-with)  
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/a-unified-anomaly-synthesis-strategy-with/anomaly-detection-on-wfdd)](https://paperswithcode.com/sota/anomaly-detection-on-wfdd?p=a-unified-anomaly-synthesis-strategy-with)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/a-unified-anomaly-synthesis-strategy-with/anomaly-detection-on-visa)](https://paperswithcode.com/sota/anomaly-detection-on-visa?p=a-unified-anomaly-synthesis-strategy-with)
+This repository contains the implementation of a research project focused on thermal anomaly detection in 3D printing using deep learning. It is inspired by the GLASS framework and builds upon it with custom training strategies, a WideResNet-50 backbone, and real 3D thermal print data.
 
-![](figures/GLASS_schematic.png)
+We explore and compare supervised, unsupervised, and semi-supervised approaches using both standard and custom anomaly synthesis methods. The project aims to contribute toward automated quality monitoring in additive manufacturing.
 
-**A Unified Anomaly Synthesis Strategy with Gradient Ascent for Industrial Anomaly Detection and Localization**
+---
 
-_Qiyu Chen, Huiyuan Luo, Chengkan Lv*, Zhengtao Zhang_
+## 📂 Project Highlights
 
-[Springer DOI Link](https://link.springer.com/chapter/10.1007/978-3-031-72855-6_3) & 
-[ArXiv Preprint Link](https://arxiv.org/abs/2407.09359)
+- 🔍 Thermal image anomaly detection for 3D printing
+- 🧠 Deep learning with WideResNet-50 backbone
+- 🧪 Comparative study of supervised, unsupervised, and semi-supervised methods
+- 🎛️ Support for contrastive learning and meta-learning training strategies
+- ⚙️ Dataset support for WFDD (fabric defects) and DTD (texture augmentation)
 
-## Table of Contents
-* [📖 Introduction](#introduction)
-* [🔧 Environments](#environments)
-* [📊 Data Preparation](#data-preparation)
-* [🚀 Run Experiments](#run-experiments)
-* [📂 Dataset Release](#dataset-release)
-* [🔗 Citation](#citation)
-* [🙏 Acknowledgements](#acknowledgements)
-* [📜 License](#license)
+---
 
-## Introduction
-This repository contains source code for GLASS implemented with PyTorch.
-GLASS is a unified framework designed to enhance unsupervised anomaly detection
-by addressing the limitations in coverage and controllability of existing anomaly synthesis strategies,
-particularly for weak defects that resemble normal regions.
+## 🚀 Getting Started
 
-This repository also contains the self-built datasets (WFDD, MAD-man, and MAD-sys) proposed in our paper.
+Clone the repository and install dependencies:
 
-## Environments
-Create a new conda environment and install required packages.
-```
-conda create -n glass_env python=3.9.15
-conda activate glass_env
+```bash
+git clone https://github.com/Skshamim02/anomaly-detection-3d-thermal.git
+cd anomaly-detection-3d-thermal
 pip install -r requirements.txt
-```
-Experiments are conducted on NVIDIA Tesla A800 (80GB).
-Same GPU and package version are recommended. 
+Note: If requirements.txt is not available, manually install dependencies listed in environment.yml or use a compatible PyTorch 1.12+ setup with NVIDIA GPU.
 
-## Data Preparation
-The public datasets employed in the paper are listed below.
-DTD is an auxiliary texture dataset used for data augmentation in GLASS,
-while the other datasets are used for anomaly detection evaluation.
-These dataset folders/files follow its original structure.
+📁 Dataset
+This project uses modified subsets of the following datasets:
 
-- DTD ([Download link](https://www.robots.ox.ac.uk/~vgg/data/dtd/))
-- MVTec AD ([Download link](https://www.mvtec.com/company/research/datasets/mvtec-ad/))
-- VisA ([Download link](https://github.com/amazon-science/spot-diff/))
-- MPDD ([Download link](https://github.com/stepanje/MPDD/))
+WFDD (Woven Fabric Defect Detection): Four categories including grey_cloth, grid_cloth, yellow_cloth, pink_flower
 
-We also release the model weights of GLASS-j on MVTec AD reported in the paper.
-If you want to further explore based on these models,
-you need to download the results folder
-([Download link](https://drive.google.com/drive/folders/1Hjlr-CcXwnhWfrWUCJJCooBI_pMP4N1C?usp=sharing))
-and move it to the root directory of this repository.
-Note that you should clear the existing results folder before moving.
+DTD (Describable Textures Dataset): Used for background/texture augmentation
 
-## Run Experiments
-Edit `./shell/run-dataset.sh` to configure arguments `--datapath`, `--augpath`, `--classes`, and hyperparameter settings.
-Please modify argument `--test` to 'ckpt' / 'test' to toggle between training and testing modes.
+You can replace these with your own thermal anomaly dataset if available
 
-```
-bash run-dataset.sh
-```
+Download the WFDD dataset from Google Drive
 
-_"Note that 'dataset' refers to any dataset.
-Currently, the `shell` folder contains scripts for six datasets,
-such as `run-mvtec.sh` for MVTec AD. If you want to train your own dataset,
-please create a new `run-*.sh` file."_
+⚙️ Training & Inference
+Run training with your desired configuration (example below):
 
-## Dataset Release
-### 1.WFDD ([Download link](https://drive.google.com/file/d/1P8yfNnfoFsb0Lv-HRzkPQ2nD9qsL--Vk/view?usp=sharing/))
-The Woven Fabric Defect Detection (WFDD) dataset includes 4101 woven fabric images categorized into 4 categories:
-grey cloth, grid cloth, yellow cloth, and pink flower.
-The first three classes are collected from the industrial production sites of [WEIQIAO Textile](http://www.wqfz.com/en/),
-while the 'pink flower' class is gathered from the publicly available
-[Cloth Flaw Dataset](https://tianchi.aliyun.com/dataset/79336?lang=en-us/).
-Each category contains block-shape, point-like, and line-type defects with pixel-level annotations.
+bash
+Copy
+Edit
+python main.py \
+    --gpu 0 \
+    --test ckpt \
+    --net wideresnet50 \
+    --datapath ./data \
+    --augpath ./data/dtd/images \
+    --dataset wfdd \
+    --class yellow_cloth \
+    --output results \
+    --alpha 0.5 \
+    --fg 1 \
+    --epochs 200
+Change --test to test or train to switch modes.
 
-![](figures/WFDD_samples.png)
+🧠 Model & Strategy
+We currently support:
 
-### 2.MAD-man ([Download link](https://drive.google.com/file/d/1HJmw7hSmrS0NMxfAjDltF4cXlN5S96Iz/view?usp=sharing/))
-The MVTec AD-manual (MAD-man) test set is constructed to evaluate weak defect detection.
-It includes samples independently selected by 5 individuals from all 15 categories of MVTec AD.
-Each subset contains 2 normal and 6 anomaly samples per category.
+✅ WideResNet-50 backbone (default)
 
-![](figures/MAD-man_samples.png)
+🔁 Noisy patch embedding strategy
 
-### 3.MAD-sys ([Download link](https://drive.google.com/file/d/1uLGWmOc4D9PuQawE-2nFS3p6XQzKrVsn/view?usp=sharing/))
-The MVTec AD-synthesis (MAD-sys) test set is constructed from 5 texture categories of MVTec AD.
-It includes 4 subsets with varying degrees of weak defects which are adjusted by the transparency coefficient.
-Each subset contains 320 normal and 946 anomaly samples.
+🌌 Feature mining and gradient ascent augmentation
 
-_"Note that due to weak defects under &beta;=0.9 which are very close to normal,
-we did not use the 5<sup>th</sup> subset in our study.
-However, we choose to release this subset,
-sincerely hoping that future work can further address this challenge."_
+🔍 Contrastive loss with configurable radius
 
-![](figures/MAD-sys_samples.png)
+📦 Custom patch sampling: normal, abnormal, and hard negatives
 
-### 4.Foreground Mask ([Download link](https://drive.google.com/file/d/1Fn84QCfMtgBGEDcmY44v97Ci8wwpABK8/view?usp=sharing/))
-The foreground masks of normal samples from various datasets are obtained through binarization
-inspired by [BGAD](https://github.com/xcyao00/BGAD/).
-If a dataset does not have or require the foreground masks,
-please set argument `--fg` to '0' in shell script.
+You can modify these strategies in model/ and trainer/ directories.
 
-## Citation
-Please cite the following paper if the code and dataset help your project:
+📊 Results & Evaluation
+Results are saved under the results/ directory. Use visualization scripts to generate heatmaps and bounding box overlays. Metrics include:
 
-```bibtex
-@inproceedings{chen2025unified,
-  title={A unified anomaly synthesis strategy with gradient ascent for industrial anomaly detection and localization},
-  author={Chen, Qiyu and Luo, Huiyuan and Lv, Chengkan and Zhang, Zhengtao},
-  booktitle={European Conference on Computer Vision},
-  pages={37--54},
-  year={2025},
-  organization={Springer}
-}
-```
+AUROC (Area Under ROC Curve)
 
-## Acknowledgements
-Thanks for the great inspiration from [SimpleNet](https://github.com/DonaldRR/SimpleNet/).
+Pixel-level and image-level F1 scores
 
-## License
-The code and dataset in this repository are licensed under the [MIT license](https://mit-license.org/).
+Heatmap visualizations of anomaly localization
+
+📌 Future Work
+ Integration with real-time thermal camera feed
+
+ Comparison with Transformer-based architectures
+
+ Extension to semantic anomaly segmentation
+
+ Autoencoder baseline integration
+
+🙏 Acknowledgements
+This project builds on the GLASS repository and was inspired by concepts from:
+
+SimpleNet
+
+BGAD
+
+MVTec AD
